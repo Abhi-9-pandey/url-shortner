@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>URL Shortener</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+
+<body class="p-4">
+
+<div class="container" style="max-width: 600px;">
+    <h1 class="mb-4">URL Shortener</h1>
+
+    <!-- Show form errors (like invalid URL) -->
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            Please enter a valid URL.
+        </div>
+    {% endif %}
+
+    <!-- URL Input Form -->
+    <form method="POST">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            {{ form.original_url.label_tag }}
+            {{ form.original_url }}
+        </div>
+
+        <button class="btn btn-primary" type="submit">Shorten</button>
+    </form>
+
+    <!-- Display the short URL if created -->
+    {% if short_code %}
+        <div class="mt-4">
+            <h5>Short URL Generated:</h5>
+
+            <a href="/{{ short_code }}" target="_blank">
+                {{ request.scheme }}://{{ request.get_host }}/{{ short_code }}
+            </a>
+        </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
